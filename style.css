@@ -45,6 +45,7 @@ body{
 }
 
 .menu-header h2{
+  font-family: "Cinzel", serif;
   font-size:20px;
   font-weight:700;
   letter-spacing:1px;
@@ -73,7 +74,16 @@ body{
   font-family: "Cinzel", serif;
   cursor:pointer;
   white-space:nowrap;
+
+  /* ✅ CENTER TEXT */
+  display:flex;
+  align-items:center;      /* vertical center */
+  justify-content:center;  /* horizontal center */
+  
+  letter-spacing:0.6px;
+  font-size:14px;
 }
+
 
 .category.active{
   background:linear-gradient(135deg,#f3d98b,#d4af37);
@@ -179,16 +189,29 @@ body{
   display:flex;
   align-items:center;
   margin-top:6px;
+  
 }
 
 .price{
-  background:linear-gradient(135deg,#f3d98b,#d4af37);
-  min-width:10px;
-  padding: 4px 12px;
-  border-radius:999px;
-  font-weight:800;
-  color:#2a070a;
+  display: inline-flex;          /* ✅ wrap content only */
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg,#f3d98b,#d4af37);
+  padding: 4px 10px;             /* ⬅️ chota padding */
+  border-radius: 999px;
+
+  font-weight: 700;              /* thoda refined */
+  font-size: 13px;               /* ⬅️ size control */
+  color: #2a070a;
+
+  width: fit-content;            /* ✅ IMPORTANT */
+  max-width: max-content;        /* extra safety */
+ 
+  letter-spacing: .3px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.15);
 }
+
 
 
 /* ================= SKELETON LOADER ================= */
@@ -270,7 +293,7 @@ body{
 /* Banner images */
 .banner-img {
   width: 100%;
-  height: 100px;
+  height: 80px;
   object-fit: contain;
   position: absolute;
   inset: 0;
@@ -311,4 +334,3 @@ footer{
   font-size:13px;
   opacity:.65;
 }
-
