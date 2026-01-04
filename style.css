@@ -264,7 +264,7 @@ body{
   height: 100px;
   border-radius: 16px;
   overflow: hidden;
-  background: #140507;
+  background: #2a070a;
 }
 
 /* Banner images */
@@ -311,3 +311,4 @@ footer{
   font-size:13px;
   opacity:.65;
 }
+
