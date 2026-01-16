@@ -2,67 +2,134 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Go Digital</title>
 
 <style>
+:root{
+  --bg:#050b1a;
+  --card:#0b1633;
+  --blue:#1e90ff;
+  --text:#eaf0ff;
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#2a070a;
-  color:#f7f5f2;
+  background:radial-gradient(circle at top,var(--card),var(--bg));
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.page{
+.wrapper{
   max-width:720px;
-  margin:auto;
-  padding:24px;
+  padding:28px;
+  text-align:center;
 }
 
-h1{
-  color:#d4af37;
-  margin-bottom:10px;
+.logo-box{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  padding:18px 22px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#0c1c44,#050b1a);
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.6),
+    inset 0 0 20px rgba(30,144,255,.25);
+  animation:float 4s ease-in-out infinite;
+}
+
+.logo-box img{
+  width:54px;
+  height:54px;
+}
+
+.logo-box h1{
+  font-size:28px;
+  margin:0;
+  color:white;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
 }
 
 .card{
-  background:#3b0f14;
-  border-radius:18px;
-  padding:20px;
-  margin-top:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  margin-top:28px;
+  background:linear-gradient(145deg,#0e1f47,#070f25);
+  padding:26px;
+  border-radius:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  text-align:left;
+}
+
+.card h2{
+  margin-top:0;
+  color:var(--blue);
+}
+
+.card ul{
+  padding-left:18px;
+}
+
+.card li{
+  margin:8px 0;
+}
+
+.contact{
+  margin-top:24px;
+  text-align:center;
 }
 
 .contact a{
-  color:#d4af37;
+  display:inline-block;
+  margin-top:10px;
+  padding:12px 22px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--blue),#0a6cff);
+  color:white;
   text-decoration:none;
-  font-weight:600;
+  font-weight:700;
+  box-shadow:0 10px 25px rgba(30,144,255,.45);
 }
 </style>
 </head>
 
 <body>
-<div class="page">
-  <h1>Go Digital</h1>
-  <p>
-    We help restaurants & local businesses grow with
-    modern digital menus, branding, automation & repeat customer systems.
-  </p>
+
+<div class="wrapper">
+
+  <div class="logo-box">
+    <img src="assets/go-digital-logo.png" alt="Go Digital">
+    <h1>Go Digital</h1>
+  </div>
 
   <div class="card">
-    <h3>What we do</h3>
+    <h2>We Help Restaurants Grow 🚀</h2>
     <ul>
       <li>QR Based Digital Menus</li>
-      <li>Restaurant Branding</li>
-      <li>Online Ordering Systems</li>
-      <li>Customer Retention Tools</li>
+      <li>Premium UI/UX Design</li>
+      <li>Admin Panel & Automation</li>
+      <li>Customer Retention Systems</li>
+      <li>Low Cost • High Impact</li>
     </ul>
   </div>
 
-  <div class="card contact">
-    <h3>Contact Us</h3>
-    <p>Email: <a href="mailto:godigital@example.com">godigital@example.com</a></p>
-    <p>WhatsApp: <a href="https://wa.me/919999999999">+91 99999 99999</a></p>
+  <div class="contact">
+    <p>Want to digitize your restaurant?</p>
+    <a href="https://wa.me/917044215131" target="_blank">
+      Contact Go Digital
+    </a>
   </div>
+
 </div>
+
 </body>
 </html>
