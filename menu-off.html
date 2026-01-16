@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activate Menu</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Menu Unavailable</title>
+
 <style>
 body{
   margin:0;
@@ -11,25 +12,50 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#f5f5f5;
+  background:radial-gradient(circle at top,#0b1633,#050b1a);
   font-family:system-ui,sans-serif;
+  color:#eaf0ff;
 }
+
 .card{
-  background:#fff;
-  padding:24px;
-  border-radius:16px;
+  max-width:360px;
+  padding:26px;
+  border-radius:22px;
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  background:linear-gradient(145deg,#0e1f47,#070f25);
+  box-shadow:0 25px 60px rgba(0,0,0,.6);
 }
-button{
-  margin-top:16px;
-  padding:12px 20px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  background:#3b2a56;
-  color:#fff;
-  cursor:pointer;
+
+.logo{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.logo img{
+  width:42px;
+}
+
+h2{
+  color:#1e90ff;
+  margin-bottom:8px;
+}
+
+p{
+  font-size:14px;
+  opacity:.9;
+}
+
+.contact{
+  margin-top:18px;
+  font-weight:600;
+}
+
+.contact a{
+  color:#1e90ff;
+  text-decoration:none;
 }
 </style>
 </head>
@@ -37,33 +63,26 @@ button{
 <body>
 
 <div class="card">
-  <h2>Menu Expired</h2>
-  <p>Your subscription is inactive.</p>
-  <button onclick="payNow()">Activate Menu</button>
+
+  <div class="logo">
+    <img src="assets/go-digital-logo.png" alt="Go Digital">
+    <strong>Go Digital</strong>
+  </div>
+
+  <h2>Menu Temporarily Unavailable</h2>
+
+  <p>
+    Your subscription has ended.<br><br>
+    Please contact our team to renew your plan and activate your menu again.
+  </p>
+
+  <div class="contact">
+    📞 <a href="https://wa.me/917044215131" target="_blank">
+      Contact Go Digital Support
+    </a>
+  </div>
+
 </div>
-
-<script>
-function payNow(){
-  const params = new URLSearchParams(location.search);
-  const slug = params.get("slug");
-
-  fetch("http://localhost:5000/api/subscription/create", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({
-      plan_id: "plan_test_XXXXXXXX",
-      slug: slug
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    window.location.href = data.short_url;
-  })
-  .catch(()=>{
-    alert("Payment service unavailable");
-  });
-}
-</script>
 
 </body>
 </html>
