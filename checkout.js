@@ -3,7 +3,7 @@ const params = new URLSearchParams(window.location.search);
 const slug = params.get("slug") || "barfmalai";
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycby_7KW_sT6qOCsRtgpVTx_U32UsEUg4R3buCSuCjwaeeYZ9wIzGmL0I1EsK44eAsbAy/exec";
+"https://script.google.com/macros/s/AKfycbw-WnpgvD-H8MoMWX4yc-bLf7cCAmScErE7nJD59x2T8pmbxtvDEjPGICzjWT0zCrEH/exec";
 
 let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -39,18 +39,34 @@ renderItems();
 
 document.getElementById("placeOrderBtn").onclick = ()=>{
 
-const order = {
+const name=document.getElementById("custName").value.trim();
+const phone=document.getElementById("custPhone").value.trim();
+const address=document.getElementById("custAddress").value.trim();
+const delivery=document.getElementById("deliveryDate").value;
 
-name:document.getElementById("custName").value,
+if(!name || !phone || !address || !delivery){
 
-phone:document.getElementById("custPhone").value,
+alert("Please fill all details");
 
-address:document.getElementById("custAddress").value,
+return;
 
-delivery:document.getElementById("deliveryDate").value,
+}
 
+if(phone.length<10){
+
+alert("Enter valid mobile number");
+
+return;
+
+}
+
+const order={
+
+name:name,
+phone:phone,
+address:address,
+delivery:delivery,
 items:cart,
-
 total:cart.reduce((a,b)=>a+b.qty*b.price,0)
 
 };
@@ -63,10 +79,9 @@ body:JSON.stringify(order)
 
 })
 .then(res=>res.json())
-
 .then(d=>{
 
-alert("Order Placed");
+alert("Order Placed Successfully");
 
 localStorage.removeItem("cart");
 
