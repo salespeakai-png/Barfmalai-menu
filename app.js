@@ -1,234 +1,307 @@
-/* =====================================
-   PHASE 3 – FINAL PREMIUM MENU LOGIC
-   ===================================== */
-
 /* 🔹 GET RESTAURANT SLUG */
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("slug") || "barfmalai";
 
-/* 🔹 API URL (Apps Script) */
+/* 🔹 API URL */
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbwh-eNLy81JK6AvwQQF-H7flEDANpUjHTv7Y2ubdnqGRO4IzhRf6HT1AZSzkqCqiyM8/exec?slug=" + slug;
+"https://script.google.com/macros/s/AKfycby_7KW_sT6qOCsRtgpVTx_U32UsEUg4R3buCSuCjwaeeYZ9wIzGmL0I1EsK44eAsbAy/exec?slug="+slug;
 
-/* 🔹 DOM ELEMENTS */
+/* 🔹 CART */
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+/* 🔹 DOM */
 const menuLogo = document.getElementById("menuLogo");
 const menuName = document.getElementById("menuName");
 const categoriesDiv = document.getElementById("categories");
 const productsDiv = document.getElementById("products");
 const skeletonsDiv = document.getElementById("skeletons");
-const catHint = document.querySelector(".cat-hint");
 
-/* =====================================
-   SKELETON LOADER
-   ===================================== */
-function showSkeletons(count = 4) {
-  if (!skeletonsDiv) return;
-  skeletonsDiv.innerHTML = "";
+/* CART UI */
+const cartBar = document.getElementById("cartBar");
+const cartCount = document.getElementById("cartCount");
 
-  for (let i = 0; i < count; i++) {
-    const s = document.createElement("div");
-    s.className = "skeleton-card";
-    s.innerHTML = `
-      <div class="skeleton-img"></div>
-      <div class="skeleton-lines">
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line short"></div>
-        <div class="skeleton-line price"></div>
-      </div>
-    `;
-    skeletonsDiv.appendChild(s);
-  }
+/* ======================
+SKELETON
+====================== */
+
+function showSkeletons(count=4){
+
+skeletonsDiv.innerHTML="";
+
+for(let i=0;i<count;i++){
+
+const s=document.createElement("div");
+s.className="skeleton-card";
+
+s.innerHTML=`
+<div class="skeleton-img"></div>
+<div class="skeleton-lines">
+<div class="skeleton-line"></div>
+<div class="skeleton-line short"></div>
+<div class="skeleton-line price"></div>
+</div>
+`;
+
+skeletonsDiv.appendChild(s);
+
 }
 
-function hideSkeletons() {
-  if (skeletonsDiv) skeletonsDiv.innerHTML = "";
 }
 
-/* =====================================
-   IMAGE LAZY LOAD OBSERVER
-   ===================================== */
-const imgObserver = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        img.onload = () => img.classList.add("loaded");
-        img.onerror = () => (img.src = "assets/placeholder.png");
-        imgObserver.unobserve(img);
-      }
-    });
-  },
-  { threshold: 0.2 }
-);
+function hideSkeletons(){
+skeletonsDiv.innerHTML="";
+}
 
-/* =====================================
-   INITIAL LOAD
-   ===================================== */
+/* ======================
+IMAGE LAZY LOAD
+====================== */
+
+const imgObserver = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+
+const img=entry.target;
+
+img.src=img.dataset.src;
+
+img.onload=()=>img.classList.add("loaded");
+
+img.onerror=()=>img.src="assets/placeholder.png";
+
+imgObserver.unobserve(img);
+
+}
+});
+},{threshold:0.2});
+
+
+/* ======================
+FETCH MENU
+====================== */
+
 showSkeletons(4);
 
-/* =====================================
-   FETCH MENU DATA
-   ===================================== */
 fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    if (data.error === "MENU_OFF") {
-      window.location.href = "menu-off.html?slug=" + slug;
-      return;
-    }
+.then(res=>res.json())
+.then(data=>{
 
-    if (data.error) {
-      document.body.innerHTML = data.error;
-      return;
-    }
-
-    initMenu(data);
-  })
-  .catch(() => {
-    document.body.innerHTML = "Unable to load menu. Please try again.";
-  });
-
-/* =====================================
-   INIT MENU
-   ===================================== */
-function initMenu(data) {
-  const r = data.restaurant;
-
-  /* HEADER */
-  menuLogo.src = r.logo_url;
-  menuLogo.onerror = () => (menuLogo.src = "assets/placeholder.png");
-  menuName.innerText = r.name;
-
-  /* 🎨 APPLY THEME COLOR FROM SHEET */
-  if (r.theme_color) {
-    document.documentElement.style.setProperty(
-      "--theme-bg",
-      r.theme_color
-    );
-  }
-
-  renderCategories(data.categories, data.products);
+if(data.error==="MENU_OFF"){
+window.location.href="menu-off.html?slug="+slug;
+return;
 }
 
-/* =====================================
-   RENDER CATEGORIES
-   ===================================== */
-function renderCategories(categories, products) {
-  categoriesDiv.innerHTML = "";
+initMenu(data);
 
-  if (!categories || categories.length === 0) {
-    categoriesDiv.innerHTML = "<p>No categories available</p>";
-    return;
-  }
+})
+.catch(()=>{
+document.body.innerHTML="Menu load error";
+});
 
-  categories.forEach((cat, index) => {
-    const el = document.createElement("div");
-    el.className = "category" + (index === 0 ? " active" : "");
-    el.innerText = cat.name;
 
-    el.onclick = () => {
-      document
-        .querySelectorAll(".category")
-        .forEach(c => c.classList.remove("active"));
+/* ======================
+INIT MENU
+====================== */
 
-      el.classList.add("active");
+function initMenu(data){
 
-      el.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest"
-      });
+const r=data.restaurant;
 
-      renderProducts(cat.id, products);
-    };
+menuLogo.src=r.logo_url;
+menuName.innerText=r.name;
 
-    categoriesDiv.appendChild(el);
-  });
+renderCategories(data.categories,data.products);
 
-  /* SLIDE HINT AUTO HIDE */
-  if (catHint) {
-    categoriesDiv.addEventListener("scroll", () => {
-      if (categoriesDiv.scrollLeft > 10) {
-        catHint.style.display = "none";
-      }
-    });
-  }
+updateCartUI();
 
-  /* MICRO AUTO SLIDE HINT */
-  setTimeout(() => {
-    categoriesDiv.scrollLeft = 40;
-  }, 600);
-
-  renderProducts(categories[0].id, products);
 }
 
-/* =====================================
-   RENDER PRODUCTS
-   ===================================== */
-function renderProducts(categoryId, products) {
-  /* Smooth transition */
-  productsDiv.style.opacity = "0";
 
-  setTimeout(() => {
-    productsDiv.innerHTML = "";
-    hideSkeletons();
+/* ======================
+CATEGORIES
+====================== */
 
-    const filteredProducts = products.filter(
-      p => String(p.categoryId) === String(categoryId)
-    );
+function renderCategories(categories,products){
 
-    if (filteredProducts.length === 0) {
-      productsDiv.innerHTML = "<p>No products available</p>";
-      productsDiv.style.opacity = "1";
-      return;
-    }
+categoriesDiv.innerHTML="";
 
-    filteredProducts.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "product";
+categories.forEach((cat,index)=>{
 
-      card.innerHTML = `
-        <img data-src="${p.image}" src="assets/placeholder.png">
-        <div class="product-info">
-          <div class="product-title">
-            <span class="veg-dot ${p.veg === "nonveg" ? "nonveg" : ""}"></span>
-            <h3>${p.name}</h3>
-          </div>
-          <p>${p.desc || ""}</p>
-          <div class="price">₹${p.price}</div>
-        </div>
-      `;
+const el=document.createElement("div");
 
-      productsDiv.appendChild(card);
+el.className="category"+(index===0?" active":"");
 
-      const img = card.querySelector("img");
-      imgObserver.observe(img);
-    });
+el.innerText=cat.name;
 
-    productsDiv.style.opacity = "1";
-    document.getElementById("loadingText")?.remove();
-  }, 120);
+el.onclick=()=>{
+
+document.querySelectorAll(".category")
+.forEach(c=>c.classList.remove("active"));
+
+el.classList.add("active");
+
+renderProducts(cat.id,products);
+
+};
+
+categoriesDiv.appendChild(el);
+
+});
+
+renderProducts(categories[0].id,products);
+
 }
 
-/* ================= BANNER SLIDER ================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-  const imgs = document.querySelectorAll(".banner-img");
-  const skeleton = document.getElementById("bannerSkeleton");
+/* ======================
+PRODUCTS
+====================== */
 
-  // Remove skeleton after short delay
-  setTimeout(() => {
-    skeleton.style.display = "none";
-  }, 4300);
+function renderProducts(categoryId,products){
 
-  // Start slider
-  if (imgs.length > 1) {
-    let i = 0;
-    setInterval(() => {
-      imgs[i].classList.remove("active");
-      i = (i + 1) % imgs.length;
-      imgs[i].classList.add("active");
-    }, 3000);
-  }
+productsDiv.style.opacity="0";
+
+setTimeout(()=>{
+
+productsDiv.innerHTML="";
+hideSkeletons();
+
+const filtered=products.filter(
+p=>String(p.categoryId)===String(categoryId)
+);
+
+filtered.forEach(p=>{
+
+const card=document.createElement("div");
+
+card.className="product";
+
+card.innerHTML=`
+
+<img data-src="${p.image}" src="assets/placeholder.png">
+
+<div class="product-info">
+
+<h3>${p.name}</h3>
+
+<p>${p.desc||""}</p>
+
+<div class="product-bottom">
+
+<div class="price">₹${p.price}</div>
+
+<button class="add-btn">ADD</button>
+
+</div>
+
+</div>
+
+`;
+
+productsDiv.appendChild(card);
+
+const img=card.querySelector("img");
+imgObserver.observe(img);
+
+const btn=card.querySelector(".add-btn");
+
+btn.onclick=()=>{
+addToCart(p);
+};
+
+});
+
+productsDiv.style.opacity="1";
+
+},120);
+
+}
+
+
+/* ======================
+CART
+====================== */
+
+function addToCart(product){
+
+const existing=cart.find(i=>i.id===product.id);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+cart.push({
+id:product.id,
+name:product.name,
+price:product.price,
+qty:1
+});
+
+}
+
+saveCart();
+
+updateCartUI();
+
+}
+
+
+function saveCart(){
+localStorage.setItem("cart",JSON.stringify(cart));
+}
+
+
+function updateCartUI(){
+
+const count=cart.reduce((a,b)=>a+b.qty,0);
+
+cartCount.innerText=count;
+
+if(count>0){
+cartBar.style.display="flex";
+}else{
+cartBar.style.display="none";
+}
+
+}
+
+
+/* ======================
+OPEN CHECKOUT
+====================== */
+
+cartBar.onclick=()=>{
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+window.location.href="checkout.html?slug="+slug;
+
+};
+
+
+/* ======================
+BANNER SLIDER
+====================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const imgs=document.querySelectorAll(".banner-img");
+
+if(imgs.length>1){
+
+let i=0;
+
+setInterval(()=>{
+
+imgs[i].classList.remove("active");
+
+i=(i+1)%imgs.length;
+
+imgs[i].classList.add("active");
+
+},3000);
+
+}
+
 });
