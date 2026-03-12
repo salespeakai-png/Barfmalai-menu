@@ -371,4 +371,179 @@ body{
   opacity:1;
 }
 
+/* ================= ADD BUTTON ================= */
+
+.product-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:8px;
+}
+
+.add-btn{
+
+  background:linear-gradient(135deg,#f3d98b,#d4af37);
+
+  border:none;
+
+  padding:6px 14px;
+
+  border-radius:999px;
+
+  font-weight:700;
+
+  font-size:12px;
+
+  color:#2a070a;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+
+  box-shadow:0 4px 10px rgba(0,0,0,.2);
+
+}
+
+.add-btn:hover{
+
+  transform:scale(1.05);
+
+}
+
+/* ================= CART BAR ================= */
+
+#cartBar{
+
+  position:fixed;
+
+  bottom:18px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  background:linear-gradient(135deg,#f3d98b,#d4af37);
+
+  color:#2a070a;
+
+  font-weight:700;
+
+  padding:12px 22px;
+
+  border-radius:999px;
+
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+
+  cursor:pointer;
+
+  display:none;
+
+  z-index:999;
+
+  font-family:"Cinzel",serif;
+
+}
+
+/* ================= CHECKOUT ================= */
+
+.checkout{
+
+  max-width:600px;
+
+  margin:auto;
+
+  padding:20px;
+
+}
+
+.checkout h2{
+
+  font-family:"Cinzel",serif;
+
+  margin-bottom:18px;
+
+  color:#f3d98b;
+
+}
+
+.checkout input,
+.checkout textarea{
+
+  width:100%;
+
+  padding:12px;
+
+  border-radius:10px;
+
+  border:none;
+
+  margin-bottom:12px;
+
+  font-size:14px;
+
+}
+
+.checkout textarea{
+
+  min-height:80px;
+
+}
+
+#orderItems{
+
+  background:rgba(255,255,255,.95);
+
+  color:#2a070a;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  margin-top:10px;
+
+}
+
+#orderTotal{
+
+  font-size:18px;
+
+  font-weight:700;
+
+  margin-top:10px;
+
+}
+
+#placeOrderBtn{
+
+  margin-top:16px;
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:999px;
+
+  background:linear-gradient(135deg,#f3d98b,#d4af37);
+
+  color:#2a070a;
+
+  font-weight:700;
+
+  font-size:16px;
+
+  cursor:pointer;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.3);
+
+}
+
+#placeOrderBtn:hover{
+
+  transform:scale(1.03);
+
+}
+
+
 
