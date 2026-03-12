@@ -545,6 +545,46 @@ font-family:"Cinzel",serif;
 
 }
 
+/* ===== QUANTITY BOX ===== */
+
+.qty-box{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+.qty-box button{
+
+width:28px;
+
+height:28px;
+
+border:none;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#f3d98b,#d4af37);
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.qty{
+
+font-weight:700;
+
+min-width:14px;
+
+text-align:center;
+
+}
+
 
 
 
