@@ -189,7 +189,13 @@ card.innerHTML=`
 
 <div class="price">₹${p.price}</div>
 
-<button class="add-btn">ADD</button>
+<div class="qty-box">
+
+<button class="minus">-</button>
+
+<span class="qty">0</span>
+
+<button class="plus">+</button>
 
 </div>
 
@@ -197,6 +203,36 @@ card.innerHTML=`
 
 `;
 
+const plus = card.querySelector(".plus");
+const minus = card.querySelector(".minus");
+const qty = card.querySelector(".qty");
+
+function refreshQty(){
+
+const item = cart.find(i=>i.id===p.id);
+
+qty.innerText = item ? item.qty : 0;
+
+}
+
+refreshQty();
+
+plus.onclick = () => {
+
+addItem(p);
+
+refreshQty();
+
+};
+
+minus.onclick = () => {
+
+removeItem(p);
+
+refreshQty();
+
+};
+  
 productsDiv.appendChild(card);
 
 const img=card.querySelector("img");
@@ -245,6 +281,51 @@ saveCart();
 updateCartUI();
 
 updateButton(product,btn);
+
+}
+
+function addItem(product){
+
+const existing = cart.find(i=>i.id===product.id);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+cart.push({
+id:product.id,
+name:product.name,
+price:product.price,
+qty:1
+});
+
+}
+
+saveCart();
+
+updateCartUI();
+
+}
+
+function removeItem(product){
+
+const existing = cart.find(i=>i.id===product.id);
+
+if(!existing) return;
+
+existing.qty--;
+
+if(existing.qty<=0){
+
+cart = cart.filter(i=>i.id!==product.id);
+
+}
+
+saveCart();
+
+updateCartUI();
 
 }
 
@@ -323,5 +404,6 @@ imgs[i].classList.add("active");
 }
 
 });
+
 
 
