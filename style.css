@@ -414,33 +414,33 @@ body{
 
 #cartBar{
 
-  position:fixed;
+position:fixed;
 
-  bottom:18px;
+top:80px;   /* header ke niche */
 
-  left:50%;
+right:20px;
 
-  transform:translateX(-50%);
+transform:none;
 
-  background:linear-gradient(135deg,#f3d98b,#d4af37);
+background:linear-gradient(135deg,#f3d98b,#d4af37);
 
-  color:#2a070a;
+color:#2a070a;
 
-  font-weight:700;
+font-weight:700;
 
-  padding:12px 22px;
+padding:10px 16px;
 
-  border-radius:999px;
+border-radius:999px;
 
-  box-shadow:0 8px 25px rgba(0,0,0,.4);
+box-shadow:0 8px 25px rgba(0,0,0,.4);
 
-  cursor:pointer;
+cursor:pointer;
 
-  display:none;
+display:none;
 
-  z-index:999;
+z-index:999;
 
-  font-family:"Cinzel",serif;
+font-family:"Cinzel",serif;
 
 }
 
@@ -544,6 +544,7 @@ body{
   transform:scale(1.03);
 
 }
+
 
 
 
