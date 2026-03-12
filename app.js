@@ -4,7 +4,7 @@ const slug = params.get("slug") || "barfmalai";
 
 /* 🔹 API URL */
 const API_URL =
-"https://script.google.com/macros/s/AKfycby_7KW_sT6qOCsRtgpVTx_U32UsEUg4R3buCSuCjwaeeYZ9wIzGmL0I1EsK44eAsbAy/exec?slug="+slug;
+"https://script.google.com/macros/s/AKfycbw-WnpgvD-H8MoMWX4yc-bLf7cCAmScErE7nJD59x2T8pmbxtvDEjPGICzjWT0zCrEH/exec?slug="+slug;
 
 /* 🔹 CART */
 let cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -323,4 +323,5 @@ imgs[i].classList.add("active");
 }
 
 });
+
 
