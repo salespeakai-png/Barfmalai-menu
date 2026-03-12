@@ -205,7 +205,7 @@ imgObserver.observe(img);
 const btn=card.querySelector(".add-btn");
 
 btn.onclick=()=>{
-addToCart(p);
+addToCart(p,btn);
 };
 
 });
@@ -221,9 +221,9 @@ productsDiv.style.opacity="1";
 CART
 ====================== */
 
-function addToCart(product){
+function addToCart(product,btn){
 
-const existing=cart.find(i=>i.id===product.id);
+const existing = cart.find(i=>i.id===product.id);
 
 if(existing){
 
@@ -243,6 +243,24 @@ qty:1
 saveCart();
 
 updateCartUI();
+
+updateButton(product,btn);
+
+}
+
+function updateButton(product,btn){
+
+const item = cart.find(i=>i.id===product.id);
+
+if(!item){
+
+btn.innerText="ADD";
+
+return;
+
+}
+
+btn.innerText=item.qty;
 
 }
 
@@ -305,3 +323,4 @@ imgs[i].classList.add("active");
 }
 
 });
+
