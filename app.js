@@ -122,6 +122,11 @@ CATEGORIES
 
 function renderCategories(categories,products){
 
+if (!categories || categories.length === 0) {
+    productsDiv.innerHTML = "<p>No products found</p>";
+    return;
+}
+
 categoriesDiv.innerHTML="";
 
 categories.forEach((cat,index)=>{
@@ -147,7 +152,9 @@ categoriesDiv.appendChild(el);
 
 });
 
-renderProducts(categories[0].id,products);
+if(categories.length){
+   renderProducts(categories[0].id,products);
+}
 
 }
 
@@ -237,12 +244,6 @@ productsDiv.appendChild(card);
 
 const img=card.querySelector("img");
 imgObserver.observe(img);
-
-const btn=card.querySelector(".add-btn");
-
-btn.onclick=()=>{
-addToCart(p,btn);
-};
 
 });
 
